@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seletor de Cores RGB com Memória</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Estilização customizada para os sliders */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 0.7;
+            transition: opacity .2s;
+        }
+        input[type="range"]:hover {
+            opacity: 1;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        #red::-webkit-slider-thumb { background: #ef4444; }
+        #red::-moz-range-thumb { background: #ef4444; }
+        #green::-webkit-slider-thumb { background: #22c55e; }
+        #green::-moz-range-thumb { background: #22c55e; }
+        #blue::-webkit-slider-thumb { background: #3b82f6; }
+        #blue::-moz-range-thumb { background: #3b82f6; }
+        /* Remove as setas dos inputs de número no Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+        /* Remove as setas dos inputs de número no Firefox */
+        input[type=number] {
+          -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 flex items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-md mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-6 md:p-8">
+        
+        <h1 class="text-2xl md:text-3xl font-bold text-center mb-4 text-gray-900 dark:text-white">Seletor de Cores RGB</h1>
+        
+        <!-- Display da Cor -->
+        <div id="color-display" class="w-full h-48 rounded-xl mb-6 border-4 border-white dark:border-gray-700 shadow-inner transition-colors duration-200"></div>
+
+        <!-- Controles Deslizantes e Inputs -->
+        <div class="space-y-5">
+            <!-- Controle Vermelho -->
+            <div class="flex flex-col">
+                <div class="flex justify-between items-center mb-1">
+                    <label for="red" class="font-medium text-red-500">Vermelho (R)</label>
+                    <input type="number" id="red-input" min="0" max="255" value="128" class="font-mono text-sm bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded w-16 text-center focus:outline-none focus:ring-2 focus:ring-red-500">
+                </div>
+                <input type="range" id="red" min="0" max="255" value="128" class="slider">
+            </div>
+
+            <!-- Controle Verde -->
+            <div class="flex flex-col">
+                <div class="flex justify-between items-center mb-1">
+                    <label for="green" class="font-medium text-green-500">Verde (G)</label>
+                    <input type="number" id="green-input" min="0" max="255" value="128" class="font-mono text-sm bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded w-16 text-center focus:outline-none focus:ring-2 focus:ring-green-500">
+                </div>
+                <input type="range" id="green" min="0" max="255" value="128" class="slider">
+            </div>
+
+            <!-- Controle Azul -->
+            <div class="flex flex-col">
+                <div class="flex justify-between items-center mb-1">
+                    <label for="blue" class="font-medium text-blue-500">Azul (B)</label>
+                    <input type="number" id="blue-input" min="0" max="255" value="128" class="font-mono text-sm bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded w-16 text-center focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <input type="range" id="blue" min="0" max="255" value="128" class="slider">
+            </div>
+        </div>
+
+        <!-- Valores da Cor -->
+        <div class="mt-6 p-4 bg-gray-100 dark:bg-gray-700/50 rounded-lg text-center space-y-2">
+            <div class="flex justify-around items-center gap-2">
+                <p class="font-mono text-lg" id="rgb-code">rgb(128, 128, 128)</p>
+                <button id="copy-rgb" class="text-gray-500 hover:text-gray-800 dark:hover:text-white" title="Copiar RGB">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3z"/></svg>
+                </button>
+            </div>
+             <div class="flex justify-around items-center gap-2">
+                <p class="font-mono text-lg" id="hex-code">#808080</p>
+                 <button id="copy-hex" class="text-gray-500 hover:text-gray-800 dark:hover:text-white" title="Copiar HEX">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3z"/></svg>
+                </button>
+            </div>
+            <hr class="border-gray-200 dark:border-gray-600">
+            <div class="flex justify-around items-center gap-2">
+                <p class="font-mono text-lg" id="rgb-array-code">[128, 128, 128]</p>
+                <button id="copy-rgb-array" class="text-gray-500 hover:text-gray-800 dark:hover:text-white" title="Copiar Array RGB [0-255]">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3z"/></svg>
+                </button>
+            </div>
+            <div class="flex justify-around items-center gap-2">
+                <p class="font-mono text-lg" id="norm-array-code">[0.502, 0.502, 0.502]</p>
+                <button id="copy-norm-array" class="text-gray-500 hover:text-gray-800 dark:hover:text-white" title="Copiar Array Normalizado [0-1]">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3z"/></svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Botão Salvar -->
+        <div class="mt-6">
+            <button id="save-color" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-indigo-300 dark:focus:ring-indigo-800">
+                Salvar Cor
+            </button>
+        </div>
+
+        <!-- Cores Salvas -->
+        <div class="mt-8">
+            <h2 class="text-xl font-bold text-center mb-4 text-gray-900 dark:text-white">Cores Salvas</h2>
+            <div id="saved-colors" class="flex flex-wrap justify-center gap-3 p-4 bg-gray-100 dark:bg-gray-700/50 rounded-lg min-h-[60px]">
+                <p id="no-saved-colors" class="text-gray-500 dark:text-gray-400">Nenhuma cor salva ainda.</p>
+            </div>
+             <button id="clear-saved" class="w-full mt-4 text-sm text-gray-500 hover:text-red-500 dark:hover:text-red-400 transition-colors">Limpar tudo</button>
+        </div>
+        
+        <!-- Mensagem de Cópia -->
+        <div id="copy-message" class="fixed bottom-5 right-5 bg-gray-900 text-white px-4 py-2 rounded-lg shadow-lg opacity-0 transition-opacity duration-300">
+            Copiado para a área de transferência!
+        </div>
+
+    </div>
+
+    <script>
+        // --- Elementos do DOM ---
+        const redSlider = document.getElementById('red');
+        const greenSlider = document.getElementById('green');
+        const blueSlider = document.getElementById('blue');
+        
+        const redInput = document.getElementById('red-input');
+        const greenInput = document.getElementById('green-input');
+        const blueInput = document.getElementById('blue-input');
+
+        const colorDisplay = document.getElementById('color-display');
+        const rgbCode = document.getElementById('rgb-code');
+        const hexCode = document.getElementById('hex-code');
+        const rgbArrayCode = document.getElementById('rgb-array-code');
+        const normArrayCode = document.getElementById('norm-array-code');
+
+        const saveButton = document.getElementById('save-color');
+        const savedColorsContainer = document.getElementById('saved-colors');
+        const noSavedColorsMsg = document.getElementById('no-saved-colors');
+        const clearSavedButton = document.getElementById('clear-saved');
+        
+        const copyRgbBtn = document.getElementById('copy-rgb');
+        const copyHexBtn = document.getElementById('copy-hex');
+        const copyRgbArrayBtn = document.getElementById('copy-rgb-array');
+        const copyNormArrayBtn = document.getElementById('copy-norm-array');
+        const copyMessage = document.getElementById('copy-message');
+
+        // --- Funções de Conversão e Atualização ---
+
+        function componentToHex(c) {
+            const hex = c.toString(16);
+            return hex.length == 1 ? "0" + hex : hex;
+        }
+
+        function rgbToHex(r, g, b) {
+            return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+        }
+
+        // Função principal para atualizar a cor a partir dos sliders
+        function updateColorFromSliders() {
+            const r = parseInt(redSlider.value);
+            const g = parseInt(greenSlider.value);
+            const b = parseInt(blueSlider.value);
+
+            redInput.value = r;
+            greenInput.value = g;
+            blueInput.value = b;
+            
+            updateUI(r, g, b);
+        }
+
+        // Função para atualizar a cor a partir dos inputs numéricos
+        function updateColorFromInputs() {
+            const r = parseInt(redInput.value);
+            const g = parseInt(greenInput.value);
+            const b = parseInt(blueInput.value);
+
+            redSlider.value = r;
+            greenSlider.value = g;
+            blueSlider.value = b;
+
+            updateUI(r, g, b);
+        }
+        
+        // Função central para atualizar a interface
+        function updateUI(r, g, b) {
+            const rgbString = `rgb(${r}, ${g}, ${b})`;
+            
+            // Atualiza display principal
+            colorDisplay.style.backgroundColor = rgbString;
+            
+            // Atualiza todos os formatos de texto
+            rgbCode.textContent = rgbString;
+            hexCode.textContent = rgbToHex(r, g, b);
+            rgbArrayCode.textContent = `[${r}, ${g}, ${b}]`;
+
+            const r_norm = (r / 255).toFixed(3);
+            const g_norm = (g / 255).toFixed(3);
+            const b_norm = (b / 255).toFixed(3);
+            normArrayCode.textContent = `[${r_norm}, ${g_norm}, ${b_norm}]`;
+        }
+        
+        // --- Funções de Utilitário (Copiar, Salvar, Carregar) ---
+
+        function copyToClipboard(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                 navigator.clipboard.writeText(text);
+            } else {
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                textArea.style.position = "fixed";
+                textArea.style.left = "-999999px";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                } catch (err) {
+                    console.error('Fallback: Falha ao copiar texto: ', err);
+                }
+                document.body.removeChild(textArea);
+            }
+            
+            copyMessage.classList.remove('opacity-0');
+            setTimeout(() => {
+                copyMessage.classList.add('opacity-0');
+            }, 2000);
+        }
+
+        function setColor(rgbString) {
+            const rgbValues = rgbString.match(/\d+/g);
+            if (rgbValues && rgbValues.length === 3) {
+                redSlider.value = rgbValues[0];
+                greenSlider.value = rgbValues[1];
+                blueSlider.value = rgbValues[2];
+                updateColorFromSliders();
+            }
+        }
+
+        function addSavedColor(rgbString) {
+            if (noSavedColorsMsg) {
+                noSavedColorsMsg.style.display = 'none';
+            }
+
+            const colorSwatch = document.createElement('div');
+            colorSwatch.className = 'w-10 h-10 rounded-full cursor-pointer border-2 border-white dark:border-gray-600 shadow-md transition-transform transform hover:scale-110';
+            colorSwatch.style.backgroundColor = rgbString;
+            colorSwatch.title = `Restaurar cor ${rgbString}`;
+
+            colorSwatch.addEventListener('click', () => setColor(rgbString));
+            
+            colorSwatch.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                colorSwatch.remove();
+                saveColorsToLocalStorage();
+                if (savedColorsContainer.childElementCount <= 1) {
+                     if (noSavedColorsMsg) noSavedColorsMsg.style.display = 'block';
+                }
+            });
+
+            savedColorsContainer.appendChild(colorSwatch);
+        }
+
+        function saveColorsToLocalStorage() {
+            const swatches = savedColorsContainer.querySelectorAll('div[style]');
+            const colors = Array.from(swatches).map(swatch => swatch.style.backgroundColor);
+            localStorage.setItem('savedRgbColors', JSON.stringify(colors));
+        }
+
+        function loadColorsFromLocalStorage() {
+            const colors = JSON.parse(localStorage.getItem('savedRgbColors'));
+            if (colors && colors.length > 0) {
+                colors.forEach(color => addSavedColor(color));
+            }
+        }
+        
+        // --- Event Listeners ---
+
+        redSlider.addEventListener('input', updateColorFromSliders);
+        greenSlider.addEventListener('input', updateColorFromSliders);
+        blueSlider.addEventListener('input', updateColorFromSliders);
+        
+        redInput.addEventListener('input', updateColorFromInputs);
+        greenInput.addEventListener('input', updateColorFromInputs);
+        blueInput.addEventListener('input', updateColorFromInputs);
+
+        function handleBlur(event) {
+            let value = parseInt(event.target.value);
+            if (isNaN(value) || value < 0) {
+                event.target.value = 0;
+            } else if (value > 255) {
+                event.target.value = 255;
+            }
+            updateColorFromInputs();
+        }
+        redInput.addEventListener('blur', handleBlur);
+        greenInput.addEventListener('blur', handleBlur);
+        blueInput.addEventListener('blur', handleBlur);
+
+        copyRgbBtn.addEventListener('click', () => copyToClipboard(rgbCode.textContent));
+        copyHexBtn.addEventListener('click', () => copyToClipboard(hexCode.textContent));
+        copyRgbArrayBtn.addEventListener('click', () => copyToClipboard(rgbArrayCode.textContent));
+        copyNormArrayBtn.addEventListener('click', () => copyToClipboard(normArrayCode.textContent));
+
+        saveButton.addEventListener('click', () => {
+            const currentColor = rgbCode.textContent;
+            addSavedColor(currentColor);
+            saveColorsToLocalStorage();
+        });
+        
+        clearSavedButton.addEventListener('click', () => {
+             if (confirm('Tem certeza que deseja apagar todas as cores salvas?')) {
+                localStorage.removeItem('savedRgbColors');
+                const swatches = savedColorsContainer.querySelectorAll('div[style]');
+                swatches.forEach(swatch => swatch.remove());
+                if (noSavedColorsMsg) noSavedColorsMsg.style.display = 'block';
+            }
+        });
+
+        // --- Inicialização ---
+        document.addEventListener('DOMContentLoaded', () => {
+            updateColorFromSliders();
+            loadColorsFromLocalStorage();
+        });
+
+    </script>
+</body>
+</html>
